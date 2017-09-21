@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_library_book_wizard_form" model="ir.ui.view">
+            <field name="name">library.book.publication.wizard_form</field>
+            <field name="model">library.book.publication.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name"/>
+                        <field name="date"/>
+                    </group>
+                    <group>
+                        <field name="books_ids"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="act_public_book"
+                    multi="True"
+                    key2="client_action_multi"
+                    name="Public Book"
+                    res_model="library.book.publication.wizard"
+                    src_model="library.book"
+                    view_mode="form"
+                    target="new"
+                    view_type="form"
+                    context="{'default_books_ids': context.get('active_ids')}"
+        />
+
+        <!-- This Menu Item must have a parent and an action -->
+        <!--<menuitem-->
+                <!--id="menu_publication_wizard"-->
+                <!--name="Publication"-->
+                <!--parent="sub_menu_library"-->
+                <!--action="act_public_book"-->
+                <!--sequence="20"/>-->
+
+    </data>
+</odoo>

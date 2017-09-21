@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="library_book_kanban" model="ir.ui.view">
+            <field name="name">library.book.view.kanban</field>
+            <field name="model">library.book</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state">
+                    <field name="name"/>
+
+                    <field name="short_name"/>
+                    <!--<field name="user_id"/>-->
+                    <field name="message_ids"/>
+                    <field name="message_follower_ids"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card">
+
+                                <div class="o_kanban_card_header_title">
+                                    <a type="open">
+                                        <div class="o_primary">
+                                            <field name="name"/>
+
+                                        </div>
+                                    </a>
+
+                                    <!--<img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)"-->
+                                         <!--t-att-title="record.user_id.value" width="24" height="24"-->
+                                         <!--class="oe_kanban_avatar"/>-->
+                                    <!--<img t-att-src='_s + "/base/static/src/img/truck.png"' class="o_kanban_image oe_kanban_avatar_smallbox"/> -->
+                                </div>
+
+                                <!-- Campos apenas com field se nao existe, nao exibe
+                                    e nao preciso explicitar a declaracao em cima
+                                -->
+                                <field name="currency_id"/>
+                                <br/>
+                                <!-- Campos com t-esc recebem um pre tratamento do banco
+                                  e deve ser declarado antes do template para ser utilizado
+                                  -->
+
+
+
+                                <br/>
+                                <span title='Messages'>
+                                    <i class='fa fa-comments'/>
+                                    <t t-esc="record.message_ids.raw_value.length"/>
+                                </span>
+                                <span title='Followers'>
+                                    <i class='fa fa-users'/>
+                                    <t t-esc="record.message_follower_ids.raw_value.length"/>
+                                </span>
+                                <div class="oe_kanban_details"></div>
+
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+    </data>
+</odoo>

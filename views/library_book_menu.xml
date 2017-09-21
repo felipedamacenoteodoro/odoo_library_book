@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+     <!-- Action -->
+
+    <act_window id="action_library_book"
+                name="Books"
+                res_model="library.book"
+                view_mode="tree,form,calendar,kanban"
+                domain="[('state','=','available')]"
+                context="{'default_notes':'teste'}"
+                limit="80"/>
+
+    <!--Acao para chamar a res.partner-->
+    <act_window id="action_all_editors_partner"
+                name="Editors"
+                res_model="res.partner"
+                view_mode="tree,form"
+                domain="[('user_id', '=', context.get('uid'))]"
+    />
+
+
+
+
+    <!--Menu Principal -->
+    <menuitem id="main_menu_books"
+              name="Libraries"/>
+
+    <!--Menu de Titulo dentro do menu principal -->
+    <menuitem id="sub_menu_library"
+              name="Books"
+              parent="main_menu_books"
+              sequence="5"
+    />
+
+
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+ <record id="sobscreve_res_partner_library_book" model="ir.ui.view">
+       <field name="name">Modify Res partner</field>
+       <field name="model">res.partner</field>
+       <field name="inherit_id" ref="library_book.library_book_view_form"/>
+       <field name="arch" type="xml">
+           <xpath expr="//group/field[@name='date_updated']" position="after">
+               <field name="peso"/>
+               <field name="state_id"/>
+               <field name="country_id"/>
+           </xpath>
+       </field>
+     </record>
+</odoo>

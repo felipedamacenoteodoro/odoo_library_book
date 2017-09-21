@@ -1,0 +1,4 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_read_library_book","access_read_library_book","model_library_book","group_library_book_read","1","0","0","0"
+"access_workers_library_book","access_workers_library_book","model_library_book","group_library_book_workers","1","1","1","0"
+"access_manager_library_book","access_workers_library_book","model_library_book","group_library_book_manager","1","1","1","1"

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.module.category" id="module_category_library_book">
+        <field name="name">Library Book</field>
+        <field name="sequence">0</field>
+        <field name="visible" eval="30"/>
+    </record>
+
+    <record id="group_library_book_read" model="res.groups">
+        <field name="name">Read</field>
+        <field name="category_id" ref="module_category_library_book"/>
+        <field name="menu_access" eval="[(6,0, [ref('main_menu_books')])]"/>
+    </record>
+
+    <record id="group_library_book_workers" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_category_library_book"/>
+        <field name="implied_ids" eval="[(4, ref('group_library_book_read'))]"/>
+    </record>
+
+    <record id="group_library_book_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="module_category_library_book"/>
+        <field name="implied_ids" eval="[(4, ref('group_library_book_workers'))]"/>
+    </record>
+
+    <!--Rules-->
+    <record id="library_book_manager_rule" model="ir.rule">
+        <field name="name">Manager Ver Todos Editores</field>
+        <field ref="model_library_book" name="model_id" />
+        <field name="domain_force">[(1,'=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_library_book_manager'))]" />
+    </record>
+
+    <!--Rules-->
+    <record id="library_book_workers_rule" model="ir.rule">
+        <field name="name">Usuario Ver Apenas os Deles</field>
+        <field ref="model_library_book" name="model_id" />
+        <field name="domain_force">[('diretor','=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_library_book_read'))]" />
+    </record>
+
+
+
+</odoo>

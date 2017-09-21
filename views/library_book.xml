@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+        <record id="book_price_precision" model="decimal.precision">
+            <field name="name">Book Price</field>
+            <field name="digits">2</field>
+        </record>
+    </data>
+
+    <record id="library_book_view_form" model="ir.ui.view">
+        <field name="name">Library Book Form</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"></field>
+                    <button type="object" name="action_available" string="Set Available" states="draft"/>
+                    <button type="object" name="action_no_allowed" string="Set No Allowed"/>
+                </header>
+
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="short_name"/>
+                        <field name="reader_rating"/>
+                        <field name="date_release"/>
+                        <field name="attachment_ids" widget="many2many_binary" string="Attach a file"/>
+                        <field name="currency_id"/>
+                        <field name="cost_price" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                        <field name="age_days"/>
+                        <field name="publisher_city" readonly="True"/>
+                    </group>
+
+                    <group>
+                        <field name="diretor"/>
+                        <field name="partner_ids" widget="many2many_tags"/>
+                        <field name="date"/>
+                        <field name="pages"/>
+                        <field name="date_updated"/>
+                        <field name="contato"/>
+                        <field name="descricao"/>
+                    </group>
+                    <group>
+                        <field name="publisher_id"/>
+                    </group>
+                    <group>
+                        <field name="author_ids" widget="many2many_tags"/>
+                    </group>
+
+                    <field name="notes"/>
+                    <field name="description"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="library_book_view_tree" model="ir.ui.view">
+        <field name="name">Library Book List</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <tree import="0">
+                <field name="name"/>
+                <field name="short_name"/>
+                <field name="pages"/>
+                <field name="date_release"/>
+                <field name="date_updated"/>
+                <field name="date"/>
+                <field name="reader_rating"/>
+                <field name="cost_price"/>
+                <field name="age_days"/>
+                <field name="partner_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="library_book_view_search" model="ir.ui.view">
+        <field name="name">Library Book Search</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_ids"/>
+                <field name="pages"/>
+                <field name="date_release"/>
+                <filter name="S/ Parceiros"
+                        domain="[('partner_ids', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!--Form modificado da res partner-->
+    <record id="form_all_editors" model="ir.ui.view">
+        <field name="name">All Editors</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form>
+                <header style="margin-top:2px; padding:5px;">
+                    <button type="object"
+                            name="open_commercial_entity"
+                            string="Open commercial partner"
+                            class="oe_highlight"/>
+                    <button type="action" name="%(base.action_partner_category_form)d"
+                            string="Open partner categories"/>
+                </header>
+
+                <sheet>
+
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button name="open_something_interesting"
+                                string="Open some linked record"
+                                type="object" class="oe_stat_button" icon="fa-truck"/>
+                    </div>
+
+                    <div class="oe_left oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+
+                    <group string="Groups" name="ind_grupo">
+                        <field name="user_id"/>
+                        <field name="category_id" widget="many2many_tags"/>
+                        <field name="parent_id"
+                               attrs="{'invisible':[('is_company', '=', True)], 'required': [('is_company', '=', False)]}"/>
+                        <field name="is_company"/>
+                    </group>
+
+                    <group>
+                        <field name="child_ids">
+                            <tree>
+                                <field name="name"/>
+                                <field name="email"/>
+                                <field name="phone"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="function"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="kanban_all_customers" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="supplier"/>
+                <field name="customer"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card">
+                            <a type="open">
+                                <field name="name"/>
+                            </a>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!--Tree modificado res.partner-->
+    <record id="tree_all_customers" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <tree colors="blue: customer and supplier;
+                                green:customer;
+                                red: supplier">
+                <field name="name"/>
+                <field name="customer" invisible="1"/>
+                <field name="supplier" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="calendar_library_loan_task" model="ir.ui.view">
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_start" date_stop="date_end">
+                <field name="name"/>
+                <field name="currency_id"/>
+            </calendar>
+        </field>
+    </record>
+
+
+    <!--O odoo procura o action windows view, caso haja ele verifica o view_id e act_win e carrega a view modificada-->
+    <record id="action_all_editors_form" model="ir.actions.act_window.view">
+        <field name="act_window_id" ref="action_all_editors_partner"/>
+        <field name="view_id" ref="form_all_editors"/>     <!--Id da View que quero carregar ao inves do padrao-->
+        <field name="view_mode">form</field>
+    </record>
+
+    <!--O odoo procura o action windows view, caso haja ele verifica o view_id e act_win e carrega a view modificada-->
+    <record id="action_all_editors_tree" model="ir.actions.act_window.view">
+        <field name="act_window_id" ref="action_all_editors_partner"/>
+        <field name="view_id" ref="tree_all_customers"/>     <!--Id da View que quero carregar ao inves do padrao-->
+        <field name="view_mode">tree</field>
+    </record>
+
+    <!--O odoo procura o action windows view, caso haja ele verifica o view_id e act_win e carrega a view modificada-->
+    <record id="action_all_editors_kanban" model="ir.actions.act_window.view">
+        <field name="act_window_id" ref="action_all_editors_partner"/>
+        <field name="view_id" ref="kanban_all_customers"/>     <!--Id da View que quero carregar ao inves do padrao-->
+        <field name="view_mode">kanban</field>
+    </record>
+
+    <!--fecha action-->
+
+
+    <!--SubMenu-->
+    <menuitem id="menu_all_books"
+              parent="sub_menu_library"
+              action="action_library_book"
+              sequence="90"
+              groups="group_library_book_read"
+    />
+
+    <!--Sobscreve o respaner-->
+
+    <menuitem id="menu_sub_editors"
+              name="Editors"
+              parent="sub_menu_library"
+              action="action_all_editors_partner"
+              sequence="90"
+              groups="group_library_book_read"
+    />
+
+
+</odoo>
